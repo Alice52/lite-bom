@@ -1,0 +1,69 @@
+name: Build Share-Service Project
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'share-service/**'
+      - '.github/workflows/project-shareservice-build.yml'
+      - '.github/workflows/project-shareservice-release.yml'
+  pull_request:
+  workflow_call:
+
+concurrency:
+  group: ${{ github.event_name }}-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  reusable_build_job:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    strategy:
+      matrix:
+        java: ["8", "11", "16"]
+    env:
+      PROJECT_PREFIX: share-service
+
+    steps:
+      - name: Export Global Var
+        run: |
+          echo "ALI_DOCKER_REGISTRY=${{ secrets.ALI_DOCKER_HUB_REGISTRY }}" >> $GITHUB_ENV
+          echo "ALI_DOCKER_USERNAME=${{ secrets.ALI_DOCKER_REGISTRY_USERNAME }}" >> $GITHUB_ENV
+          echo "ALI_DOCKER_PASSWORD=${{ secrets.ALI_DOCKER_REGISTRY_PASSWORD }}" >> $GITHUB_ENV
+          echo "JASYPT_ENCRYPTOR_PASSWORD=${{ secrets.JASYPT_ENCRYPTOR_PASSWORD }}" >> $GITHUB_ENV
+          echo "PROJECT_HOME=$PWD" >> $GITHUB_ENV
+          echo "TAG=`echo \`date +%Y%m%d\`.${GITHUB_SHA} | cut -c1-16`" >> $GITHUB_ENV
+
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          submodules: true
+
+      - name: Set up JDK ${{ matrix.Java }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: "zulu"
+          cache: "maven"
+
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build share-service Project
+        run: |
+          cd $PROJECT_HOME/$PROJECT_PREFIX
+          mvn clean package -DskipTests=true
+
+      - name: Upload Bom Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: custom-basic.jar
+          path: ${{ github.workspace }}/**/bom*.jar
+          retention-days: 1
+
