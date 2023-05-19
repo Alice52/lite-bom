@@ -10,7 +10,7 @@
   </parent>
   <groupId>io.github.alice52</groupId>
   <artifactId>share-service</artifactId>
-  <version>0.0.0.0</version>
+  <version>0.0.0.1</version>
   <packaging>pom</packaging>
   <licenses>
     <license>
@@ -32,40 +32,43 @@
     <module>share-component-test</module>
   </modules>
   <scm>
-    <connection>git@github.com:Alice52/common-api.git</connection>
-    <developerConnection>git@github.com:Alice52/common-api.git</developerConnection>
+    <connection>git@github.com:Alice52/lite-bom.git</connection>
+    <developerConnection>git@github.com:Alice52/lite-bom.git</developerConnection>
     <tag>common-api</tag>
-    <url>git@github.com:Alice52/common-api.git</url>
+    <url>git@github.com:Alice52/lite-bom.git</url>
   </scm>
   <distributionManagement>
     <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Nexus Staging Repository</name>
+      <id>ossrh</id>
+      <name>Nexus Release Repository</name>
       <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
     <snapshotRepository>
-      <id>oss</id>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Nexus Snapshot Repository</name>
       <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
   <properties>
-    <spring-framework.version>5.3.20</spring-framework.version>
-    <maven.compiler.source>11</maven.compiler.source>
-    <stable.version>0.0.0.0</stable.version>
-    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-    <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-    <spring-boot.version>2.4.6</spring-boot.version>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <mapstruct.version>1.5.3.Final</mapstruct.version>
     <flatten-maven-plugin.version>1.2.7</flatten-maven-plugin.version>
-    <revision>${stable.version}</revision>
+    <spring-boot.version>2.4.6</spring-boot.version>
+    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <spring-cloud.version>2020.0.5</spring-cloud.version>
+    <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <stable.version>0.0.0.1</stable.version>
+    <revision>${stable.version}</revision>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
+    <spring-framework.version>5.3.20</spring-framework.version>
+    <camel.version>3.12.0</camel.version>
+    <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
     <maven.compiler.target>11</maven.compiler.target>
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-    <mapstruct.version>1.5.3.Final</mapstruct.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <spring-cloud-alibaba-dependencies.version>2020.0.RC1</spring-cloud-alibaba-dependencies.version>
-    <camel.version>3.12.0</camel.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -142,6 +145,51 @@
         <plugin>
           <artifactId>maven-gpg-plugin</artifactId>
           <version>${maven-gpg-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>sign-artifacts</id>
+              <phase>verify</phase>
+              <goals>
+                <goal>sign</goal>
+              </goals>
+              <configuration>
+                <gpgArguments>
+                  <arg>--pinentry-mode</arg>
+                  <arg>loopback</arg>
+                </gpgArguments>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven-javadoc-plugin.version}</version>
+          <executions>
+            <execution>
+              <phase>compile</phase>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <show>private</show>
+            <nohelp>true</nohelp>
+            <charset>UTF-8</charset>
+            <encoding>UTF-8</encoding>
+            <docencoding>UTF-8</docencoding>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>${nexus-staging-maven-plugin.version}</version>
+          <extensions>true</extensions>
+          <configuration>
+            <serverId>ossrh</serverId>
+            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -171,6 +219,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>flatten-maven-plugin</artifactId>
+        <version>${flatten-maven-plugin.version}</version>
         <executions>
           <execution>
             <id>flatten</id>
@@ -193,57 +242,24 @@
         </configuration>
       </plugin>
       <plugin>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-        </executions>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
   <profiles>
     <profile>
-      <id>disable-javadoc-doclint</id>
-      <activation>
-        <jdk>[1.8,)</jdk>
-      </activation>
-      <properties>
-        <javadoc.opts>-Xdoclint:none</javadoc.opts>
-      </properties>
-    </profile>
-    <profile>
-      <id>sonatype-oss-release</id>
+      <id>deploy</id>
       <build>
         <plugins>
           <plugin>
             <artifactId>maven-source-plugin</artifactId>
-            <version>2.1.2</version>
-            <executions>
-              <execution>
-                <id>attach-sources</id>
-                <goals>
-                  <goal>jar-no-fork</goal>
-                </goals>
-              </execution>
-            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
           </plugin>
           <plugin>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.6</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
           </plugin>
         </plugins>
       </build>

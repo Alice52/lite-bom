@@ -5,11 +5,11 @@
   <parent>
     <groupId>io.github.alice52</groupId>
     <artifactId>share-service</artifactId>
-    <version>0.0.0.0</version>
+    <version>0.0.0.1</version>
   </parent>
   <groupId>io.github.alice52</groupId>
   <artifactId>share-component</artifactId>
-  <version>0.0.0.0</version>
+  <version>0.0.0.1</version>
   <packaging>pom</packaging>
   <licenses>
     <license>
