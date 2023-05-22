@@ -39,7 +39,7 @@
         <webjars-locator.version>0.42</webjars-locator.version>
         <rocketmq-spring-boot-starter.version>2.2.0</rocketmq-spring-boot-starter.version>
         <xxl-job-core.version>2.3.0</xxl-job-core.version>
-        <feign-opentracing.version>0.4.0</feign-opentracing.version>
+        <feign-opentracing.version>0.4.1</feign-opentracing.version>
         <opentracing-spring-jaeger-cloud-starter.version>3.3.1</opentracing-spring-jaeger-cloud-starter.version>
         <redisson-spring-boot-starter.version>3.16.4</redisson-spring-boot-starter.version>
         <guava.version>31.0.1-jre</guava.version>
