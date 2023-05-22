@@ -47,7 +47,7 @@
         <avro.version>1.11.0</avro.version>
         <confluent-encryption.version>1.0.16</confluent-encryption.version>
         <aws-java-sdk-s3.version>1.12.146</aws-java-sdk-s3.version>
-        <aws-encryption-sdk-java.version>1.9.1</aws-encryption-sdk-java.version>
+        <aws-encryption-sdk-java.version>1.9.2</aws-encryption-sdk-java.version>
         <kafka-avro-serializer.version>7.0.0</kafka-avro-serializer.version>
         <kafka-streams-avro-serde.version>7.0.0</kafka-streams-avro-serde.version>
         <aliyun-java-sdk-core.version>4.5.2</aliyun-java-sdk-core.version>
