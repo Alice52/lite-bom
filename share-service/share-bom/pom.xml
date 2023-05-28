@@ -52,7 +52,7 @@
         <kafka-streams-avro-serde.version>7.0.0</kafka-streams-avro-serde.version>
         <aliyun-java-sdk-core.version>4.5.2</aliyun-java-sdk-core.version>
         <aliyun-java-sdk-kms.version>2.15.0</aliyun-java-sdk-kms.version>
-        <fastjson.version>1.2.83</fastjson.version>
+        <fastjson.version>1.2.83_noneautotype</fastjson.version>
         <logstash-logback.version>6.6</logstash-logback.version>
         <logback-classic.version>1.2.3</logback-classic.version>
         <jackson.version>2.13.2</jackson.version>
