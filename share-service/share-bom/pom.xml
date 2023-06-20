@@ -30,7 +30,7 @@
         <!-- external dependency -->
         <mapper-spring-boot-starter.version>2.1.5</mapper-spring-boot-starter.version>
         <mapper.version>4.1.5</mapper.version>
-        <pagehelper.version>1.4.5</pagehelper.version>
+        <pagehelper.version>1.4.7</pagehelper.version>
         <mysql-connector-java.version>5.1.49</mysql-connector-java.version>
         <jasypt-spring-boot-starter.version>3.0.4</jasypt-spring-boot-starter.version>
         <mybatis-spring-boot-starter.version>2.2.0</mybatis-spring-boot-starter.version>
