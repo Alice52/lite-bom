@@ -46,7 +46,7 @@
         <kafka-schema-registry-client.version>7.0.0</kafka-schema-registry-client.version>
         <avro.version>1.11.0</avro.version>
         <confluent-encryption.version>1.0.16</confluent-encryption.version>
-        <aws-java-sdk-s3.version>1.12.146</aws-java-sdk-s3.version>
+        <aws-java-sdk-s3.version>1.12.506</aws-java-sdk-s3.version>
         <aws-encryption-sdk-java.version>1.9.1</aws-encryption-sdk-java.version>
         <kafka-avro-serializer.version>7.0.0</kafka-avro-serializer.version>
         <kafka-streams-avro-serde.version>7.0.0</kafka-streams-avro-serde.version>
